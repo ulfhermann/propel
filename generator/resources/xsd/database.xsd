@@ -513,6 +513,7 @@
 					The other package name
 				</xs:documentation>
 			</xs:annotation>
+		</xs:attribute>
 		<xs:attribute name="name" type="foreign_name" use="optional">
 			<xs:annotation>
 				<xs:documentation xml:lang="en">
@@ -710,6 +711,7 @@
 			</xs:annotation>
 		</xs:attribute>
 		<xs:attribute name="alias" type="table_name" use="optional"/>
+		<xs:attribute name="package" type="xs:string" use="optional">
 			<xs:annotation>
 				<xs:documentation xml:lang="en">
 					Specifies the "package" for the generated classes. Classes are created in subdirectories according to the package attribute value. Packages can also be mapped to schemas if the RDBMS supports multiple schemas per database.

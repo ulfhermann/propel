@@ -270,6 +270,14 @@ class ForeignKey extends XMLElement
 	}
 
 	/**
+	 * Returns the Name of the package the foreign key is in
+	 */
+	public function getPackageName()
+	{
+		return $this->parentTable->getPackage();
+	}
+
+	/**
 	 * Adds a new reference entry to the foreign key.
 	 */
 	public function addReference($p1, $p2 = null)
