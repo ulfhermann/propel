@@ -514,6 +514,15 @@ ALTER TABLE %s CHANGE %s %s;
 		return $ret;
 	}
 
+
+	/**
+	 * @see        Platform::supportsSchemas()
+	 */
+	public function supportsSchemas()
+	{
+		return true;
+	}
+
 	public function hasSize($sqlType)
 	{
 		return !("MEDIUMTEXT" == $sqlType || "LONGTEXT" == $sqlType

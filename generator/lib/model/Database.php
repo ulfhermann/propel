@@ -430,6 +430,9 @@ class Database extends XMLElement
 			if ($tbl->getPackage() === null) {
 				$tbl->setPackage($this->getPackage());
 			}
+			$this->tableList[] = $tbl;
+			$this->tablesByName[ $tbl->getName() ] = $tbl;
+			$this->tablesByPhpName[ $tbl->getPhpName() ] = $tbl;
 			return $tbl;
 		} else {
 			$tbl = new Table();

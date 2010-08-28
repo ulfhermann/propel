@@ -608,7 +608,7 @@ class Table extends XMLElement implements IDMethod
 	{
 		$inputs = array();
 		$inputs[] = $this->getDatabase();
-		$inputs[] = $this->getName();
+		$inputs[] = $this->getCommonName();
 		$inputs[] = $nameType;
 		$inputs[] = $nbr;
 		return NameFactory::generateName(NameFactory::CONSTRAINT_GENERATOR, $inputs);
@@ -1019,6 +1019,22 @@ class Table extends XMLElement implements IDMethod
 	 * Get the name of the Table
 	 */
 	public function getName()
+	{
+		if (DataModelBuilder::getBuildProperty('packageSchemas')) {
+			$package = $this->getPackage();
+			if ($package !== null) {
+				if ($this->getDatabase()->getPlatform()->supportsSchemas()) {
+					return $package . '.' . $this->name;
+				}
+			}
+		}
+		return $this->name;
+	}
+
+	/**
+	 * Get the name of the Table without its package
+	 */
+	public function getCommonName()
 	{
 		return $this->name;
 	}

@@ -122,6 +122,8 @@ class PropelSQLTask extends AbstractPropelDataModelTask
 
 		$this->validate();
 
+		DataModelBuilder::setBuildProperties($this->getPropelProperties());
+
 		if (!$this->mapperElement) {
 			throw new BuildException("You must use a <mapper/> element to describe how names should be transformed.");
 		}

@@ -1065,6 +1065,14 @@ ALTER TABLE %s ADD
 	}
 
 	/**
+	 * @see        Platform::supportsSchemas()
+	 */
+	public function supportsSchemas()
+	{
+		return false;
+	}
+
+	/**
 	 * Returns the boolean value for the RDBMS.
 	 *
 	 * This value should match the boolean value that is set

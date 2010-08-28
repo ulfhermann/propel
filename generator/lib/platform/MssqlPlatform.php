@@ -150,6 +150,14 @@ END
 		return $script;
 	}
 
+	/**
+	 * @see        Platform::supportsSchemas()
+	 */
+	public function supportsSchemas()
+	{
+		return true;
+	}
+
 	public function hasSize($sqlType)
 	{
 		return !("INT" == $sqlType || "TEXT" == $sqlType);
