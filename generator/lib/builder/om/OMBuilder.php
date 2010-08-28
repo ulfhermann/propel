@@ -323,7 +323,7 @@ abstract class OMBuilder extends DataModelBuilder
 	 */
 	protected function getForeignTable(ForeignKey $fk)
 	{
-		return $this->getTable()->getDatabase()->getTable($fk->getForeignTableName());
+		return $this->getTable()->getDatabase()->getTable($fk->getForeignTableName(), $fk->getForeignPackageName());
 	}
 
 	/**

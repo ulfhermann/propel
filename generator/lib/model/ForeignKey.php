@@ -226,7 +226,7 @@ class ForeignKey extends XMLElement
 	 */
 	public function getForeignTable()
 	{
-		return $this->getTable()->getDatabase()->getTable($this->getForeignTableName());
+		return $this->getTable()->getDatabase()->getTable($this->getForeignTableName(), $this->getForeignPackageName());
 	}
 
 	/**
