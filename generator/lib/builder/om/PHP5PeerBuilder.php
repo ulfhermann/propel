@@ -1924,7 +1924,7 @@ abstract class ".$this->getClassname(). $extendingPeerClass . " {
 		$includeJoinAll = true;
 
 		foreach ($this->getTable()->getForeignKeys() as $fk) {
-			$tblFK = $table->getDatabase()->getTable($fk->getForeignTableName());
+			$tblFK = $table->getDatabase()->getTable($fk->getForeignTableName(), $fk->getForeignPackageName());
 			$this->declareClassFromBuilder($this->getNewStubPeerBuilder($tblFK));
 			if ($tblFK->isForReferenceOnly()) {
 				$includeJoinAll = false;
@@ -2008,7 +2008,7 @@ abstract class ".$this->getClassname(). $extendingPeerClass . " {
 
 			foreach ($table->getForeignKeys() as $fk) {
 
-				$joinTable = $table->getDatabase()->getTable($fk->getForeignTableName());
+				$joinTable = $table->getDatabase()->getTable($fk->getForeignTableName(), $fk->getForeignPackageName());
 
 				if (!$joinTable->isForReferenceOnly()) {
 
@@ -2143,7 +2143,7 @@ abstract class ".$this->getClassname(). $extendingPeerClass . " {
 
 			foreach ($table->getForeignKeys() as $fk) {
 
-				$joinTable = $table->getDatabase()->getTable($fk->getForeignTableName());
+				$joinTable = $table->getDatabase()->getTable($fk->getForeignTableName(), $fk->getForeignPackageName());
 
 				if (!$joinTable->isForReferenceOnly()) {
 
@@ -2257,7 +2257,7 @@ abstract class ".$this->getClassname(). $extendingPeerClass . " {
 			// Want to cover this case, but the code is not there yet.
 			// Propel lacks a system for aliasing tables of the same name.
 			if ( $fk->getForeignTableName() != $table->getName() ) {
-				$joinTable = $table->getDatabase()->getTable($fk->getForeignTableName());
+				$joinTable = $table->getDatabase()->getTable($fk->getForeignTableName(), $fk->getForeignPackageName());
 				$new_index = $index + 1;
 
 				$joinedTablePeerBuilder = $this->getNewPeerBuilder($joinTable);
@@ -2275,7 +2275,7 @@ abstract class ".$this->getClassname(). $extendingPeerClass . " {
 		foreach ($table->getForeignKeys() as $fk) {
 			// want to cover this case, but the code is not there yet.
 			if ( $fk->getForeignTableName() != $table->getName() ) {
-				$joinTable = $table->getDatabase()->getTable($fk->getForeignTableName());
+				$joinTable = $table->getDatabase()->getTable($fk->getForeignTableName(), $fk->getForeignPackageName());
 				$joinedTablePeerBuilder = $this->getNewPeerBuilder($joinTable);
         $script .= $this->addCriteriaJoin($fk, $table, $joinTable, $joinedTablePeerBuilder);
 			}
@@ -2319,7 +2319,7 @@ abstract class ".$this->getClassname(). $extendingPeerClass . " {
 			// want to cover this case, but the code is not there yet.
 			// Why not? -because we'd have to alias the tables in the JOIN
 			if ( $fk->getForeignTableName() != $table->getName() ) {
-				$joinTable = $table->getDatabase()->getTable($fk->getForeignTableName());
+				$joinTable = $table->getDatabase()->getTable($fk->getForeignTableName(), $fk->getForeignPackageName());
 
 				$thisTableObjectBuilder = $this->getNewObjectBuilder($table);
 				$joinedTableObjectBuilder = $this->getNewObjectBuilder($joinTable);
@@ -2438,7 +2438,7 @@ abstract class ".$this->getClassname(). $extendingPeerClass . " {
 		foreach ($table->getForeignKeys() as $fk) {
 			// want to cover this case, but the code is not there yet.
 			if ( $fk->getForeignTableName() != $table->getName() ) {
-				$joinTable = $table->getDatabase()->getTable($fk->getForeignTableName());
+				$joinTable = $table->getDatabase()->getTable($fk->getForeignTableName(), $fk->getForeignPackageName());
 				$joinedTablePeerBuilder = $this->getNewPeerBuilder($joinTable);
         $script .= $this->addCriteriaJoin($fk, $table, $joinTable, $joinedTablePeerBuilder);
 			} // if fk->getForeignTableName != table->getName
@@ -2480,9 +2480,9 @@ abstract class ".$this->getClassname(). $extendingPeerClass . " {
 		// getForeignKeys() will cause this to only execute one time.
 		foreach ($fkeys as $fk ) {
 
-			$tblFK = $table->getDatabase()->getTable($fk->getForeignTableName());
+			$tblFK = $table->getDatabase()->getTable($fk->getForeignTableName(), $fk->getForeignPackageName());
 
-			$excludedTable = $table->getDatabase()->getTable($fk->getForeignTableName());
+			$excludedTable = $table->getDatabase()->getTable($fk->getForeignTableName(), $fk->getForeignPackageName());
 
 			$thisTableObjectBuilder = $this->getNewObjectBuilder($table);
 			$excludedTableObjectBuilder = $this->getNewObjectBuilder($excludedTable);
@@ -2522,7 +2522,7 @@ abstract class ".$this->getClassname(). $extendingPeerClass . " {
 				// want to cover this case, but the code is not there yet.
 				// Why not? - because we would have to alias the tables in the join
 				if ( !($subfk->getForeignTableName() == $table->getName())) {
-					$joinTable = $table->getDatabase()->getTable($subfk->getForeignTableName());
+					$joinTable = $table->getDatabase()->getTable($subfk->getForeignTableName(), $subfk->getForeignPackageName());
 					$joinTablePeerBuilder = $this->getNewPeerBuilder($joinTable);
 					$joinClassName = $joinTablePeerBuilder->getObjectClassname();
 
@@ -2540,7 +2540,7 @@ abstract class ".$this->getClassname(). $extendingPeerClass . " {
 			foreach ($table->getForeignKeys() as $subfk) {
 				// want to cover this case, but the code is not there yet.
 				if ( $subfk->getForeignTableName() != $table->getName() ) {
-					$joinTable = $table->getDatabase()->getTable($subfk->getForeignTableName());
+					$joinTable = $table->getDatabase()->getTable($subfk->getForeignTableName(), $subfk->getForeignPackageName());
 					$joinedTablePeerBuilder = $this->getNewPeerBuilder($joinTable);
 					$joinClassName = $joinedTablePeerBuilder->getObjectClassname();
 
@@ -2589,7 +2589,7 @@ abstract class ".$this->getClassname(). $extendingPeerClass . " {
 		  // want to cover this case, but the code is not there yet.
 		  if ( $subfk->getForeignTableName() != $table->getName() ) {
 
-		  	$joinTable = $table->getDatabase()->getTable($subfk->getForeignTableName());
+			$joinTable = $table->getDatabase()->getTable($subfk->getForeignTableName(), $subfk->getForeignPackageName());
 
 		  	$joinedTableObjectBuilder = $this->getNewObjectBuilder($joinTable);
 		  	$joinedTablePeerBuilder = $this->getNewPeerBuilder($joinTable);
@@ -2669,9 +2669,9 @@ abstract class ".$this->getClassname(). $extendingPeerClass . " {
 		// getForeignKeys() will cause this to only execute one time.
 		foreach ($fkeys as $fk ) {
 
-			$tblFK = $table->getDatabase()->getTable($fk->getForeignTableName());
+			$tblFK = $table->getDatabase()->getTable($fk->getForeignTableName(), $fk->getForeignPackageName());
 
-			$excludedTable = $table->getDatabase()->getTable($fk->getForeignTableName());
+			$excludedTable = $table->getDatabase()->getTable($fk->getForeignTableName(), $fk->getForeignPackageName());
 
 			$thisTableObjectBuilder = $this->getNewObjectBuilder($table);
 			$excludedTableObjectBuilder = $this->getNewObjectBuilder($excludedTable);
@@ -2721,7 +2721,7 @@ abstract class ".$this->getClassname(). $extendingPeerClass . " {
 			foreach ($table->getForeignKeys() as $subfk) {
 				// want to cover this case, but the code is not there yet.
 				if ( $subfk->getForeignTableName() != $table->getName() ) {
-					$joinTable = $table->getDatabase()->getTable($subfk->getForeignTableName());
+					$joinTable = $table->getDatabase()->getTable($subfk->getForeignTableName(), $subfk->getForeignPackageName());
 					$joinedTablePeerBuilder = $this->getNewPeerBuilder($joinTable);
 					$joinClassName = $joinedTablePeerBuilder->getObjectClassname();
 

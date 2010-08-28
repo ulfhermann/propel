@@ -430,8 +430,12 @@ class Database extends XMLElement
 			if ($tbl->getPackage() === null) {
 				$tbl->setPackage($this->getPackage());
 			}
+			$qname = ($tbl->getPackage() != null ? $tbl->getPackage().'.' : '').$tbl->getName();
+			if (isset($this->tablesByName[ $qname ])) {
+				throw new EngineException("Duplicate table declared: " . $qname);
+			}
 			$this->tableList[] = $tbl;
-			$this->tablesByName[ $tbl->getName() ] = $tbl;
+			$this->tablesByName[ $qname ] = $tbl;
 			$this->tablesByPhpName[ $tbl->getPhpName() ] = $tbl;
 			return $tbl;
 		} else {

@@ -16,6 +16,7 @@ require_once dirname(__FILE__) . '/XMLElement.php';
  * @author     Hans Lellelid <hans@xmpl.org>
  * @author     Fedor <fedor.karpelevitch@home.com>
  * @author     Daniel Rall <dlr@finemaltcoding.com>
+ * @author     Ulf Hermann <ulfhermann@kulturserver.de>
  * @version    $Revision$
  * @package    propel.generator.model
  */
@@ -23,6 +24,7 @@ class ForeignKey extends XMLElement
 {
 
 	protected $foreignTableName;
+	protected $foreignPackageName;
 	protected $name;
 	protected $phpName;
 	protected $refPhpName;
@@ -58,6 +60,7 @@ class ForeignKey extends XMLElement
 	protected function setupObject()
 	{
 		$this->foreignTableName = $this->getTable()->getDatabase()->getTablePrefix() . $this->getAttribute("foreignTable");
+		$this->foreignPackageName = $this->getAttribute("foreignPackage");
 		$this->name = $this->getAttribute("name");
 		$this->phpName = $this->getAttribute("phpName");
 		$this->refPhpName = $this->getAttribute("refPhpName");
@@ -224,6 +227,22 @@ class ForeignKey extends XMLElement
 	public function getForeignTable()
 	{
 		return $this->getTable()->getDatabase()->getTable($this->getForeignTableName());
+	}
+
+	/**
+	 * Get the foreignPackageName of the FK
+	 */
+	public function getForeignPackageName()
+	{
+		return $this->foreignPackageName;
+	}
+
+	/**
+	 * Set the foreignPackageName of the FK
+	 */
+	public function setForeignPackageName($packageName)
+	{
+		$this->foreignPackageName = $packageName;
 	}
 
 	/**
