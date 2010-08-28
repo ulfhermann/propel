@@ -95,12 +95,6 @@ abstract class AbstractPropelDataModelTask extends Task
 	protected $packageSchemas;
 
 	/**
-	 * Whether or not to use the package name as prefix for class names.
-	 * @var        boolean
-	 */
-	protected $packagePrefix;
-
-	/**
 	 * Whether to perform validation (XSD) on the schema.xml file(s).
 	 * @var        boolean
 	 */
@@ -245,16 +239,6 @@ abstract class AbstractPropelDataModelTask extends Task
 	public function setPackageSchemas($v)
 	{
 		$this->packageSchemas = ($v === '1' ? true : false);
-	}
-
-	/**
-	 * Set the packagePrefix switch on/off
-	 *
-	 * @param      string $v The build.property packagePrefix
-	 */
-	public function setPackagePrefix($v)
-	{
-		$this->packagePrefix = ($v === '1' ? true : false);
 	}
 
 	/**

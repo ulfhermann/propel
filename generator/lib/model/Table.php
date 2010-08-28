@@ -327,7 +327,6 @@ class Table extends XMLElement implements IDMethod
 		$this->name = $this->getDatabase()->getTablePrefix() . $this->getAttribute("name");
 		// retrieves the method for converting from specified name to a PHP name.
 		$this->phpNamingMethod = $this->getAttribute("phpNamingMethod", $this->getDatabase()->getDefaultPhpNamingMethod());
-		$this->phpName = $this->getAttribute("phpName", $this->buildPhpName($this->getAttribute('name')));
 		
 		$namespace = $this->getAttribute("namespace", '');
 		$package = $this->getAttribute("package");
@@ -338,6 +337,13 @@ class Table extends XMLElement implements IDMethod
 		$this->pkg = $package;
 		
 		$this->namespace = $this->getAttribute("namespace");
+
+		$qname = $this->name;
+		if ($this->getDatabase()->getBuildProperty('namespaceUseAsPrefix') && $this->namespace) {
+			$qname = $this->namespace.NameGenerator::STD_SEPARATOR_CHAR.$qname;
+		}
+		$this->phpName = $this->getAttribute("phpName", $this->buildPhpName($qname));
+
 		$this->idMethod = $this->getAttribute("idMethod", $this->getDatabase()->getDefaultIdMethod());
 		$this->allowPkInsert = $this->booleanValue($this->getAttribute("allowPkInsert"));
 

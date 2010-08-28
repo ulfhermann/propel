@@ -199,7 +199,6 @@
       targetDatabase="${propel.database}"
       packageObjectModel="${propel.packageObjectModel}"
       packageSchemas="${propel.packageSchemas}"
-      packagePrefix="${propel.packagePrefix}"
       url="${propel.database.url}"
       userId="${propel.database.user}"
       password="${propel.database.password}">
@@ -538,8 +537,7 @@
       targetPackage="${propel.targetPackage}"
       targetPlatform="${propel.targetPlatform}"
       packageObjectModel="${propel.packageObjectModel}"
-      packageSchemas="${propel.packageSchemas}"
-      packagePrefix="${propel.packagePrefix}">
+      packageSchemas="${propel.packageSchemas}">
       <schemafileset dir="${propel.schema.dir}"
         includes="${propel.schema.om.includes}"
         excludes="${propel.schema.om.excludes}"
@@ -599,7 +597,6 @@
       sqldbmap="${propel.sql.dir}/sqldb.map"
       packageObjectModel="${propel.packageObjectModel}"
       packageSchemas="${propel.packageSchemas}"
-      packagePrefix="${propel.packagePrefix}"
       >
       <mapper type="glob" from="${propel.sql.mapper.from}" to="${propel.sql.mapper.to}"/>
       <schemafileset dir="${propel.schema.dir}"
