@@ -205,8 +205,8 @@
 		</xs:restriction>
 	</xs:simpleType>
 
-	<!-- Restrict package name to letters (upper- and lowercase), numbers and the _ -->
-	<xs:simpleType name="package_name">
+	<!-- Restrict schema name to letters (upper- and lowercase), numbers and the _ -->
+	<xs:simpleType name="schema_name">
 		<xs:restriction base="xs:string">
 			<xs:pattern value="[\w_]+"/>
 		</xs:restriction>
@@ -507,10 +507,10 @@
 				</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
-		<xs:attribute name="foreignPackage" type="package_name" use="optional">
+		<xs:attribute name="foreignSchema" type="schema_name" use="optional">
 			<xs:annotation>
 				<xs:documentation xml:lang="en">
-					The other package name
+					The other schema name
 				</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
@@ -632,6 +632,13 @@
 				</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
+		<xs:attribute name="schema" type="schema_name" use="optional">
+			<xs:annotation>
+				<xs:documentation xml:lang="en">
+					The table's schema for RDBMs supporting multiple schemas per database.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
 		<xs:attribute name="phpName" type="php_class" use="optional">
 			<xs:annotation>
 				<xs:documentation xml:lang="en">
@@ -714,7 +721,7 @@
 		<xs:attribute name="package" type="xs:string" use="optional">
 			<xs:annotation>
 				<xs:documentation xml:lang="en">
-					Specifies the "package" for the generated classes. Classes are created in subdirectories according to the package attribute value. Packages can also be mapped to schemas if the RDBMS supports multiple schemas per database.
+					Specifies the "package" for the generated classes. Classes are created in subdirectories according to the package attribute value.
 				</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
@@ -841,6 +848,13 @@
 			<xs:annotation>
 				<xs:documentation xml:lang="en">
 					The PHP 5.3 namespace to use for the generated model classes of the database. Can be overridden on a per-table basis.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="schema" type="schema_name" use="optional">
+			<xs:annotation>
+				<xs:documentation xml:lang="en">
+					Specify a schema for the tables in this database. Useful for RDBMs which support multiple schemas per database.
 				</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>

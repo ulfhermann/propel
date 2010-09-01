@@ -1155,7 +1155,7 @@ abstract class ".$this->getClassname()." extends ".$parentClass." ";
 
 			foreach ($col->getForeignKeys() as $fk) {
 
-				$tblFK =  $table->getDatabase()->getTable($fk->getForeignTableName(), $fk->getForeignPackageName());
+				$tblFK =  $table->getDatabase()->getTable($fk->getForeignTableName(), $fk->getForeignSchemaName());
 				$colFK = $tblFK->getColumn($fk->getMappedForeignColumn($col->getName()));
 
 				$varName = $this->getFKVarName($fk);
@@ -1170,13 +1170,13 @@ abstract class ".$this->getClassname()." extends ".$parentClass." ";
 
 		foreach ($col->getReferrers() as $refFK) {
 
-			$tblFK = $this->getDatabase()->getTable($refFK->getForeignTableName(), $refFK->getForeignPackageName());
+			$tblFK = $this->getDatabase()->getTable($refFK->getForeignTableName(), $refFK->getForeignSchemaName());
 
 			if ( $tblFK->getName() != $table->getName() ) {
 
 				foreach ($col->getForeignKeys() as $fk) {
 
-					$tblFK = $table->getDatabase()->getTable($fk->getForeignTableName(), $fk->getForeignPackageName());
+					$tblFK = $table->getDatabase()->getTable($fk->getForeignTableName(), $fk->getForeignSchemaName());
 					$colFK = $tblFK->getColumn($fk->getMappedForeignColumn($col->getName()));
 
 					if ($refFK->isLocalPrimaryKey()) {
@@ -3962,7 +3962,7 @@ abstract class ".$this->getClassname()." extends ".$parentClass." ";
 			if ($col->isForeignKey()) {
 				foreach ($col->getForeignKeys() as $fk) {
 
-					$tblFK = $table->getDatabase()->getTable($fk->getForeignTableName(), $fk->getForeignPackageName());
+					$tblFK = $table->getDatabase()->getTable($fk->getForeignTableName(), $fk->getForeignSchemaName());
 					$colFK = $tblFK->getColumn($fk->getMappedForeignColumn($col->getName()));
 					$varName = $this->getFKVarName($fk);
 

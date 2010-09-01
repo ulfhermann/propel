@@ -24,7 +24,7 @@ class ForeignKey extends XMLElement
 {
 
 	protected $foreignTableName;
-	protected $foreignPackageName;
+	protected $foreignSchemaName;
 	protected $name;
 	protected $phpName;
 	protected $refPhpName;
@@ -60,7 +60,7 @@ class ForeignKey extends XMLElement
 	protected function setupObject()
 	{
 		$this->foreignTableName = $this->getTable()->getDatabase()->getTablePrefix() . $this->getAttribute("foreignTable");
-		$this->foreignPackageName = $this->getAttribute("foreignPackage");
+		$this->foreignSchemaName = $this->getAttribute("foreignSchema");
 		$this->name = $this->getAttribute("name");
 		$this->phpName = $this->getAttribute("phpName");
 		$this->refPhpName = $this->getAttribute("refPhpName");
@@ -226,23 +226,23 @@ class ForeignKey extends XMLElement
 	 */
 	public function getForeignTable()
 	{
-		return $this->getTable()->getDatabase()->getTable($this->getForeignTableName(), $this->getForeignPackageName());
+		return $this->getTable()->getDatabase()->getTable($this->getForeignTableName(), $this->getForeignSchemaName());
 	}
 
 	/**
-	 * Get the foreignPackageName of the FK
+	 * Get the foreignSchemaName of the FK
 	 */
-	public function getForeignPackageName()
+	public function getForeignSchemaName()
 	{
-		return $this->foreignPackageName;
+		return $this->foreignSchemaName;
 	}
 
 	/**
-	 * Set the foreignPackageName of the FK
+	 * Set the foreignSchemaName of the FK
 	 */
-	public function setForeignPackageName($packageName)
+	public function setForeignSchemaName($schemaName)
 	{
-		$this->foreignPackageName = $packageName;
+		$this->foreignSchemaName = $schemaName;
 	}
 
 	/**
