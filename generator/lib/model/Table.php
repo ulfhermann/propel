@@ -310,8 +310,12 @@ class Table extends NamedElement implements IDMethod
 		$this->phpNamingMethod = $this->getAttribute("phpNamingMethod", $this->getDatabase()->getDefaultPhpNamingMethod());
 
 		$qname = $this->name;
-		if ($this->schema && $this->getBuildProperty('schemaAutoPrefix')) {
-		   $qname = $this->schema.NameGenerator::STD_SEPARATOR_CHAR.$qname;
+		if ($this->getBuildProperty('schemaAutoPrefix')) {
+			if ($this->schema) {
+			$qname = $this->schema.NameGenerator::STD_SEPARATOR_CHAR.$qname;
+			} else if ($this->getDatabase()->getSchema()) {
+				$qname = $this->getDatabase()->getSchema().NameGenerator::STD_SEPARATOR_CHAR.$qname;
+			}
 		}
 
 		$this->phpName = $this->getAttribute("phpName", $this->buildPhpName($qname));
