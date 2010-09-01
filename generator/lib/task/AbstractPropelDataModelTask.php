@@ -89,12 +89,6 @@ abstract class AbstractPropelDataModelTask extends Task
 	protected $packageObjectModel;
 
 	/**
-	 * Whether or not to build using schemas from the package name.
-	 * @var        boolean
-	 */
-	protected $packageSchemas;
-
-	/**
 	 * Whether to perform validation (XSD) on the schema.xml file(s).
 	 * @var        boolean
 	 */
@@ -229,16 +223,6 @@ abstract class AbstractPropelDataModelTask extends Task
 	public function setPackageObjectModel($v)
 	{
 		$this->packageObjectModel = ($v === '1' ? true : false);
-	}
-
-	/**
-	 * Set the packageSchemas switch on/off
-	 *
-	 * @param      string $v The build.property packageSchemas
-	 */
-	public function setPackageSchemas($v)
-	{
-		$this->packageSchemas = ($v === '1' ? true : false);
 	}
 
 	/**
@@ -474,10 +458,6 @@ abstract class AbstractPropelDataModelTask extends Task
 
 		if (empty($ads)) {
 			throw new BuildException("No schema files were found (matching your schema fileset definition).");
-		}
-
-		if ($this->packageSchemas && !$this->getPlatformForTargetDatabase()->supportsSchemas()) {
-			$this->log("Cannot build target with native schema support; the DBMS does not support it.", PROJECT_MSG_ERR);
 		}
 
 		foreach ($ads as $ad) {

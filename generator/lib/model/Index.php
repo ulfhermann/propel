@@ -49,7 +49,7 @@ class Index extends XMLElement
 		$table = $this->getTable();
 		$inputs = array();
 		$inputs[] = $table->getDatabase();
-		$inputs[] = $table->getPackage();
+		$inputs[] = $table->getSchema();
 		$inputs[] = $table->getName();
 		// ASSUMPTION: This Index not yet added to the list.
 		if ($this->isUnique()) {

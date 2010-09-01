@@ -8,7 +8,7 @@
  * @license    MIT License
  */
 
-require_once dirname(__FILE__) . '/XMLElement.php';
+require_once dirname(__FILE__) . '/NamedElement.php';
 require_once dirname(__FILE__) . '/IDMethod.php';
 require_once dirname(__FILE__) . '/NameGenerator.php';
 require_once dirname(__FILE__) . '/Table.php';
@@ -26,21 +26,12 @@ require_once dirname(__FILE__) . '/Behavior.php';
  * @version    $Revision$
  * @package    propel.generator.model
  */
-class Database extends XMLElement
+class Database extends NamedEleemnt
 {
 
 	private $platform;
 	private $tableList = array();
 	private $curColumn;
-	private $name;
-	private $pkg;
-
-	/**
-	 * Namespace for the generated OM.
-	 *
-	 * @var       string
-	 */
-	protected $namespace;
 
 	private $baseClass;
 	private $basePeer;
@@ -87,14 +78,7 @@ class Database extends XMLElement
 	 */
 	protected function setupObject()
 	{
-		$this->name = $this->getAttribute("name");
-		$namespace = $this->getAttribute("namespace", '');
-		$package = $this->getAttribute("package");
-		if ($namespace && !$package && $this->getBuildProperty('namespaceAutoPackage')) {
-			$package = str_replace('\\', '.', $namespace);
-		}
-		$this->namespace = $namespace;
-		$this->pkg = $package;
+		parent::setupObject();
 		$this->baseClass = $this->getAttribute("baseClass");
 		$this->basePeer = $this->getAttribute("basePeer");
 		$this->defaultIdMethod = $this->getAttribute("defaultIdMethod", IDMethod::NATIVE);
@@ -123,58 +107,6 @@ class Database extends XMLElement
 	public function setPlatform($platform)
 	{
 		$this->platform = $platform;
-	}
-
-	/**
-	 * Get the name of the Database
-	 */
-	public function getName()
-	{
-		return $this->name;
-	}
-
-	/**
-	 * Set the name of the Database
-	 */
-	public function setName($name)
-	{
-		$this->name = $name;
-	}
-
-	/**
-	 * Get the value of package.
-	 * @return     value of package.
-	 */
-	public function getPackage()
-	{
-		return $this->pkg;
-	}
-
-	/**
-	 * Set the value of package.
-	 * @param      v  Value to assign to package.
-	 */
-	public function setPackage($v)
-	{
-		$this->pkg = $v;
-	}
-
-	/**
-	 * Get the value of the namespace.
-	 * @return     value of namespace.
-	 */
-	public function getNamespace()
-	{
-		return $this->namespace;
-	}
-
-	/**
-	 * Set the value of the namespace.
-	 * @param      v  Value to assign to namespace.
-	 */
-	public function setNamespace($v)
-	{
-		$this->namespace = $v;
 	}
 
 	/**
@@ -420,6 +352,9 @@ class Database extends XMLElement
 		if ($data instanceof Table) {
 			$tbl = $data; // alias
 			$tbl->setDatabase($this);
+			if ($tbl->getSchema() === null) {
+				$tbl->setSchema($this->getSchema());
+			}
 			if (isset($this->tablesByName[$tbl->getName()])) {
 				throw new EngineException("Duplicate table declared: " . $tbl->getName());
 			}
@@ -429,10 +364,6 @@ class Database extends XMLElement
 			$this->tablesByPhpName[ $tbl->getPhpName() ] = $tbl;
 			if ($tbl->getPackage() === null) {
 				$tbl->setPackage($this->getPackage());
-			}
-			$qname = ($tbl->getPackage() != null ? $tbl->getPackage().'.' : '').$tbl->getName();
-			if (isset($this->tablesByName[ $qname ])) {
-				throw new EngineException("Duplicate table declared: " . $qname);
 			}
 			$this->tableList[] = $tbl;
 			$this->tablesByName[ $qname ] = $tbl;

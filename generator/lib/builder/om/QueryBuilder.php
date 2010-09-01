@@ -713,7 +713,7 @@ abstract class ".$this->getClassname()." extends " . $parentClass . "
 		$this->declareClasses('PropelCollection', 'PropelException');
 		$table = $this->getTable();
 		$queryClass = $this->getStubQueryBuilder()->getClassname();
-		$fkTable = $this->getTable()->getDatabase()->getTable($fk->getTableName(), $fk->getPackageName());
+		$fkTable = $this->getTable()->getDatabase()->getTable($fk->getTableName(), $fk->getSchemaName());
 		$fkStubObjectBuilder = $this->getNewStubObjectBuilder($fkTable);
 		$this->declareClassFromBuilder($fkStubObjectBuilder);
 		$fkPhpName = $fkStubObjectBuilder->getClassname();
@@ -852,7 +852,7 @@ abstract class ".$this->getClassname()." extends " . $parentClass . "
 	protected function addUseRefFkQuery(&$script, $fk)
 	{
 		$table = $this->getTable();
-		$fkTable = $this->getTable()->getDatabase()->getTable($fk->getTableName(), $fk->getPackageName());
+		$fkTable = $this->getTable()->getDatabase()->getTable($fk->getTableName(), $fk->getSchemaName());
 		$queryClass = $this->getNewStubQueryBuilder($fkTable)->getClassname();
 		$relationName = $this->getRefFKPhpNameAffix($fk);
 		$joinType = $this->getJoinType($fk);

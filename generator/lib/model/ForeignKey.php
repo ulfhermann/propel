@@ -270,11 +270,11 @@ class ForeignKey extends XMLElement
 	}
 
 	/**
-	 * Returns the Name of the package the foreign key is in
+	 * Returns the Name of the schema the foreign key is in
 	 */
-	public function getPackageName()
+	public function getSchemaName()
 	{
-		return $this->parentTable->getPackage();
+		return $this->parentTable->getSchema();
 	}
 
 	/**

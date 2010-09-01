@@ -111,7 +111,7 @@ abstract class OMBuilder extends DataModelBuilder
 	 */
 	public function getFullyQualifiedClassname()
 	{
-		if ($namespace = $this->getNamespace() && !$this->getBuildProperty("namespaceUseAsPrefix")) {
+		if ($namespace = $this->getNamespace()) {
 			return $namespace . '\\' . $this->getClassname();
 		} else {
 			return $this->getClassname();
@@ -220,7 +220,7 @@ abstract class OMBuilder extends DataModelBuilder
 	public function getNamespaceStatement()
 	{
 		$namespace = $this->getNamespace();
-		if ($namespace != '' && !$this->getBuildProperty('namespaceUseAsPrefix')) {
+		if ($namespace != '') {
 			return sprintf("namespace %s;
 
 ", $namespace);
@@ -229,7 +229,6 @@ abstract class OMBuilder extends DataModelBuilder
 	
 	public function getUseStatements($ignoredNamespace = null)
 	{
-		if ($this->getBuildProperty('namespaceUseAsPrefix')) return '';
 		$script = '';
 		$declaredClasses = $this->declaredClasses;
 		unset($declaredClasses[$ignoredNamespace]);
