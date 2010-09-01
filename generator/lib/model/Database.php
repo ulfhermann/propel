@@ -26,7 +26,7 @@ require_once dirname(__FILE__) . '/Behavior.php';
  * @version    $Revision$
  * @package    propel.generator.model
  */
-class Database extends NamedEleemnt
+class Database extends NamedElement
 {
 
 	private $platform;
