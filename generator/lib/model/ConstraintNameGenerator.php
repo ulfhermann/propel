@@ -39,7 +39,7 @@ class ConstraintNameGenerator implements NameGenerator
 	{
 
 		$db = $inputs[0];
-		$package = $inputs[1];
+		$schema = $inputs[1];
 		$name = $inputs[2];
 		$namePostfix = $inputs[3];
 		$constraintNbr = (string) $inputs[4];
@@ -60,8 +60,8 @@ class ConstraintNameGenerator implements NameGenerator
 			throw $e;
 		}
 
-		if ($package && $db->getPlatform()->supportsSchemas()) {
-			$name = $package.'.'.$name;
+		if ($schema && $db->getPlatform()->supportsSchemas()) {
+			$name = $schema . self::STD_SEPARATOR_CHAR . $name;
 		}
 
 		// Do any necessary trimming.

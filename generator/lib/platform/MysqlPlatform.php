@@ -546,7 +546,12 @@ ALTER TABLE %s CHANGE %s %s;
 
 	public function quoteIdentifier($text)
 	{
-		return $this->isIdentifierQuotingEnabled ? '`' . $text . '`' : $text;
+		if (!$this->isIdentifierQuotingEnabled) return $text;
+		$parts = explode('.', $text);
+		foreach($parts as $index => $part) {
+			$parts[$index] = '`'.$part.'`';
+		}
+		return implode('.', $parts);
 	}
 
 	public function getTimestampFormatter()

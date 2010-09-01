@@ -593,7 +593,7 @@ ALTER TABLE %s DROP CONSTRAINT %s;
 		$script = sprintf($pattern,
 			$this->quoteIdentifier($fk->getName()),
 			$this->getColumnListDDL($fk->getLocalColumns()),
-			$this->quoteIdentifier($fk->getForeignTableName()),
+			$this->quoteIdentifier($fk->getQualifiedForeignTableName()),
 			$this->getColumnListDDL($fk->getForeignColumns())
 		);
 		if ($fk->hasOnUpdate()) {

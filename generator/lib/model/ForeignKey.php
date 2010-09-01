@@ -213,6 +213,19 @@ class ForeignKey extends XMLElement
 	}
 
 	/**
+	 * Get the name with schema if the platform supports schemas
+	 * @return    schema.name if platform supports it and schema is given, otherwise only name
+	 */
+	public function getQualifiedForeignTableName()
+	{
+		if ($this->getForeignSchemaName() && $this->getTable()->getDatabase()->getPlatform()->supportsSchemas()) {
+			return $this->getForeignSchemaName().'.'.$this->getForeignTableName();
+		} else {
+			return $this->getForeignTableName();
+		}
+	}
+
+	/**
 	 * Set the foreignTableName of the FK
 	 */
 	public function setForeignTableName($tableName)
@@ -600,6 +613,7 @@ class ForeignKey extends XMLElement
 		$fkNode = $node->appendChild($doc->createElement('foreign-key'));
 
 		$fkNode->setAttribute('foreignTable', $this->getForeignTableName());
+		$fkNode->setAttribute('foreignSchema', $this->getForeignSchemaName());
 		$fkNode->setAttribute('name', $this->getName());
 
 		if ($this->getPhpName()) {

@@ -1087,6 +1087,19 @@ class Table extends NamedElement implements IDMethod
 	}
 
 	/**
+	 * Get the name with schema if the platform supports schemas
+	 * @return    schema.name if platform supports it and schema is given, otherwise only name
+	 */
+	public function getQualifiedName()
+	{
+		if ($this->getSchema() && $this->getDatabase()->getPlatform()->supportsSchemas()) {
+			return $this->getSchema().'.'.$this->getName();
+		} else {
+			return $this->getName();
+		}
+	}
+
+	/**
 	 * Get the value of the namespace.
 	 * @return     value of namespace.
 	 */
