@@ -53,11 +53,7 @@ abstract class SchemaDDLBuilder extends DDLBuilder {
 	 */
 	protected function getSchema()
 	{
-
-		return $this->getBuildProperty('packageSchemas')
-			? $this->getTable()->getPackage()
-			: null;
-
+		return $this->getTable()->getSchema();
 	}
 
 	/**
