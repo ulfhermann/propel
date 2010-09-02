@@ -297,6 +297,13 @@ class Table extends NamedElement implements IDMethod
 		$this->name = $name;
 	}
 
+	public function setSchema($v) {
+		parent::setSchema($v);
+		if ($this->getSchema() && $this->getDatabase()->getPlatform()->supportsSchemas()) {
+			$this->setName($this->getSchema().'.'.$this->getCommonName());
+		}
+	}
+
 	/**
 	 * Sets up the Rule object based on the attributes that were passed to loadFromXML().
 	 * @see       parent::loadFromXML()
@@ -304,15 +311,12 @@ class Table extends NamedElement implements IDMethod
 	public function setupObject()
 	{
 	   parent::setupObject();
-		$this->setName($this->getDatabase()->getTablePrefix() . $this->getName());
-		if ($this->getSchema() && $this->getDatabase()->getPlatform()->supportsSchemas()) {
-			$this->setName($this->getSchema().'.'.$this->getName());
-		}
+		$this->setName($this->getDatabase()->getTablePrefix() . $this->getCommonName());
 
 		// retrieves the method for converting from specified name to a PHP name.
 		$this->phpNamingMethod = $this->getAttribute("phpNamingMethod", $this->getDatabase()->getDefaultPhpNamingMethod());
 
-		$qname = $this->name;
+		$qname = $this->getCommonName();
 		if ($this->getBuildProperty('schemaAutoPrefix')) {
 			if ($this->schema) {
 			$qname = $this->schema.NameGenerator::STD_SEPARATOR_CHAR.$qname;
