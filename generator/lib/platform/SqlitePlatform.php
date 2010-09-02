@@ -139,7 +139,7 @@ class SqlitePlatform extends DefaultPlatform
 		}
 	}
 
-	public function quoteIdentifier($text)
+	public function quoteIdentifier($text, $quoteDots = true)
 	{
 		return $this->isIdentifierQuotingEnabled ? '[' . $text . ']' : $text;
 	}

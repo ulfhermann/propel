@@ -367,7 +367,7 @@ DROP INDEX %s ON %s;
 	{
 		return sprintf('%sINDEX %s (%s)',
 			$this->getIndexType($index),
-			$this->quoteIdentifier($index->getName()),
+			$this->quoteIdentifier($index->getName(), false),
 			$this->getIndexColumnListDDL($index)
 		);
 	}
@@ -387,7 +387,7 @@ DROP INDEX %s ON %s;
 	public function getUniqueDDL(Unique $unique)
 	{
 		return sprintf('UNIQUE INDEX %s (%s)',
-			$this->quoteIdentifier($unique->getName()),
+			$this->quoteIdentifier($unique->getName(), false),
 			$this->getIndexColumnListDDL($unique)
 		);
 	}
@@ -544,14 +544,23 @@ ALTER TABLE %s CHANGE %s %s;
 		}
 	}
 
-	public function quoteIdentifier($text)
+	/**
+	 * MySQL documentation says that identifiers cannot contain '.'. Thus it
+	 * should be safe to split the string by '.' and quote each part individually
+	 * to allow for a <schema>.<table> or <table>.<column> syntax.
+	 *
+	 * @param       string $text the identifier
+	 * @param       bool   $quoteDots if dots should be quoted separately
+	 * @return      string the quoted identifier
+	 */
+	public function quoteIdentifier($text, $quoteDots = true)
 	{
+		// table name and field names should be quoted specifically
+		// (e.g. database.table should be quoted as `database`.`table`)
+		// but index and constraint identifiers should be quoted as `table.index` instead of `table`.`index`
+		// (call quoteIdentifier() with $quoteDots set to false)
 		if (!$this->isIdentifierQuotingEnabled) return $text;
-		$parts = explode('.', $text);
-		foreach($parts as $index => $part) {
-			$parts[$index] = '`'.$part.'`';
-		}
-		return implode('.', $parts);
+		return '`' . ($quoteDots ? strtr($text, array('.' => '`.`')) : $text) . '`';
 	}
 
 	public function getTimestampFormatter()

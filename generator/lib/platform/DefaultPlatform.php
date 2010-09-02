@@ -407,7 +407,7 @@ DROP TABLE " . $this->quoteIdentifier($table->getName()) . ";
 	 */
 	public function getPrimaryKeyName(Table $table)
 	{
-		$tableName = $table->getName();
+		$tableName = $table->getCommonName();
 		return $tableName . '_PK';
 	}
 	
@@ -593,7 +593,7 @@ ALTER TABLE %s DROP CONSTRAINT %s;
 		$script = sprintf($pattern,
 			$this->quoteIdentifier($fk->getName()),
 			$this->getColumnListDDL($fk->getLocalColumns()),
-			$this->quoteIdentifier($fk->getQualifiedForeignTableName()),
+			$this->quoteIdentifier($fk->getForeignTableName()),
 			$this->getColumnListDDL($fk->getForeignColumns())
 		);
 		if ($fk->hasOnUpdate()) {
@@ -1020,11 +1020,13 @@ ALTER TABLE %s ADD
 	/**
 	 * Quotes identifiers used in database SQL.
 	 * @param      string $text
+	 * @param      bool   $quoteDots if dots should be quoted separately
 	 * @return     string Quoted identifier.
 	 */
-	public function quoteIdentifier($text)
+	public function quoteIdentifier($text, $quoteDots = true)
 	{
-		return $this->isIdentifierQuotingEnabled ? '"' . $text . '"' : $text;
+		if (!$this->isIdentifierQuotingEnabled) return $text;
+		return '"' . ($quoteDots ? strtr($text, array('.' => '"."')) : $text) . '"';
 	}
 	
 	public function setIdentifierQuoting($enabled = true)

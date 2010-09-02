@@ -94,7 +94,7 @@ class PHP5PeerBuilder extends PeerBuilder
 	 */
 	protected function addClassOpen(&$script) {
 
-		$tableName = $this->getTable()->getQualifiedName();
+		$tableName = $this->getTable()->getName();
 		$tableDesc = $this->getTable()->getDescription();
 
 		$script .= "
@@ -187,7 +187,7 @@ abstract class ".$this->getClassname(). $extendingPeerClass . " {
 	protected function addConstantsAndAttributes(&$script)
 	{
 		$dbName = $this->getDatabase()->getName();
-		$tableName = $this->getTable()->getQualifiedName();
+		$tableName = $this->getTable()->getName();
 		$tablePhpName = $this->getTable()->isAbstract() ? '' : addslashes($this->getStubObjectBuilder()->getFullyQualifiedClassname());
 		$script .= "
 	/** the default database name for this class */
@@ -244,7 +244,7 @@ abstract class ".$this->getClassname(). $extendingPeerClass . " {
 		foreach ($this->getTable()->getColumns() as $col) {
 			$script .= "
 	/** the column name for the ".strtoupper($col->getName()) ." field */
-	const ".$this->getColumnName($col) ." = '" . $this->getTable()->getQualifiedName() . ".".strtoupper($col->getName())."';
+	const ".$this->getColumnName($col) ." = '" . $this->getTable()->getName() . ".".strtoupper($col->getName())."';
 ";
 		} // foreach
 	}
@@ -831,7 +831,7 @@ abstract class ".$this->getClassname(). $extendingPeerClass . " {
 		$table = $this->getTable();
 		$script .= "
 	/**
-	 * Method to invalidate the instance pool of all tables related to " . $table->getQualifiedName() . "
+	 * Method to invalidate the instance pool of all tables related to " . $table->getName() . "
 	 * by a foreign key with ON DELETE CASCADE
 	 */
 	public static function clearRelatedInstancePool()
@@ -1340,7 +1340,7 @@ abstract class ".$this->getClassname(). $extendingPeerClass . " {
 		$table = $this->getTable();
 		$script .= "
 	/**
-	 * Method to DELETE all rows from the ".$table->getQualifiedName()." table.
+	 * Method to DELETE all rows from the ".$table->getName()." table.
 	 *
 	 * @return     int The number of affected rows (if supported by underlying database driver).
 	 */

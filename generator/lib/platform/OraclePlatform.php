@@ -219,7 +219,7 @@ DROP SEQUENCE " . $this->quoteIdentifier($this->getSequenceName($table)) . ";
 		return true;
 	}
 	
-	public function quoteIdentifier($text)
+	public function quoteIdentifier($text, $quoteDots = true)
 	{
 		return $text;
 	}

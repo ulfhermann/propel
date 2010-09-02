@@ -135,7 +135,7 @@ END
 	{
 		$pattern = 'CONSTRAINT %s FOREIGN KEY (%s) REFERENCES %s (%s)';
 		$script = sprintf($pattern,
-			$this->quoteIdentifier($fk->getName()),
+			$this->quoteIdentifier($fk->getName(), false),
 			$this->getColumnListDDL($fk->getLocalColumns()),
 			$this->quoteIdentifier($fk->getForeignTableName()),
 			$this->getColumnListDDL($fk->getForeignColumns())
@@ -163,9 +163,10 @@ END
 		return !("INT" == $sqlType || "TEXT" == $sqlType);
 	}
 
-	public function quoteIdentifier($text)
+	public function quoteIdentifier($text, $quoteDots = true)
 	{
-		return $this->isIdentifierQuotingEnabled ? '[' . $text . ']' : $text;
+		if (!$this->isIdentifierQuotingEnabled) return $text;
+		return '[' . ($quoteDots ? strtr($text, array('.' => '].[')) : $text) . ']';
 	}
 
 	public function getTimestampFormatter()

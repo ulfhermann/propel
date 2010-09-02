@@ -50,7 +50,7 @@ class Index extends XMLElement
 		$inputs = array();
 		$inputs[] = $table->getDatabase();
 		$inputs[] = $table->getSchema();
-		$inputs[] = $table->getName();
+		$inputs[] = $table->getCommonName();
 		// ASSUMPTION: This Index not yet added to the list.
 		if ($this->isUnique()) {
 			$inputs[] = "U";

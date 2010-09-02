@@ -61,6 +61,9 @@ class ForeignKey extends XMLElement
 	{
 		$this->foreignTableName = $this->getTable()->getDatabase()->getTablePrefix() . $this->getAttribute("foreignTable");
 		$this->foreignSchemaName = $this->getAttribute("foreignSchema");
+		if ($this->getForeignSchemaName() && $this->getTable()->getDatabase()->getPlatform()->supportsSchemas()) {
+			$this->setForeignTableName($this->getForeignSchemaName().'.'.$this->getForeignTableName());
+		}
 		$this->name = $this->getAttribute("name");
 		$this->phpName = $this->getAttribute("phpName");
 		$this->refPhpName = $this->getAttribute("refPhpName");
@@ -213,16 +216,12 @@ class ForeignKey extends XMLElement
 	}
 
 	/**
-	 * Get the name with schema if the platform supports schemas
-	 * @return    schema.name if platform supports it and schema is given, otherwise only name
+	 * Get the foreign table name without schema
+	 * @return    foreign table common name
 	 */
-	public function getQualifiedForeignTableName()
+	public function getForeignTableCommonName()
 	{
-		if ($this->getForeignSchemaName() && $this->getTable()->getDatabase()->getPlatform()->supportsSchemas()) {
-			return $this->getForeignSchemaName().'.'.$this->getForeignTableName();
-		} else {
-			return $this->getForeignTableName();
-		}
+		return array_pop(explode($this->foreignTableName, '.'));
 	}
 
 	/**
@@ -239,7 +238,7 @@ class ForeignKey extends XMLElement
 	 */
 	public function getForeignTable()
 	{
-		return $this->getTable()->getDatabase()->getTable($this->getForeignTableName(), $this->getForeignSchemaName());
+		return $this->getTable()->getDatabase()->getTable($this->getForeignTableName());
 	}
 
 	/**

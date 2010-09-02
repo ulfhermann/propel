@@ -304,7 +304,10 @@ class Table extends NamedElement implements IDMethod
 	public function setupObject()
 	{
 	   parent::setupObject();
-		$this->name = $this->getDatabase()->getTablePrefix() . $this->name;
+		$this->setName($this->getDatabase()->getTablePrefix() . $this->getName());
+		if ($this->getSchema() && $this->getDatabase()->getPlatform()->supportsSchemas()) {
+			$this->setName($this->getSchema().'.'.$this->getName());
+		}
 
 		// retrieves the method for converting from specified name to a PHP name.
 		$this->phpNamingMethod = $this->getAttribute("phpNamingMethod", $this->getDatabase()->getDefaultPhpNamingMethod());
@@ -602,7 +605,7 @@ class Table extends NamedElement implements IDMethod
 		$inputs = array();
 		$inputs[] = $this->getDatabase();
 		$inputs[] = $this->getSchema();
-		$inputs[] = $this->getName();
+		$inputs[] = $this->getCommonName();
 		$inputs[] = $nameType;
 		$inputs[] = $nbr;
 		return NameFactory::generateName(NameFactory::CONSTRAINT_GENERATOR, $inputs);
@@ -1087,16 +1090,11 @@ class Table extends NamedElement implements IDMethod
 	}
 
 	/**
-	 * Get the name with schema if the platform supports schemas
-	 * @return    schema.name if platform supports it and schema is given, otherwise only name
+	 * Get the name without schema
 	 */
-	public function getQualifiedName()
+	public function getCommonName()
 	{
-		if ($this->getSchema() && $this->getDatabase()->getPlatform()->supportsSchemas()) {
-			return $this->getSchema().'.'.$this->getName();
-		} else {
-			return $this->getName();
-		}
+		return array_pop(explode($this->getName(), '.'));
 	}
 
 	/**

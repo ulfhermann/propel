@@ -203,7 +203,7 @@ class ".$this->getClassname()." extends TableMap {
 				if ($col->isForeignKey()) {
 					foreach ($col->getForeignKeys() as $fk) {
 						$script .= "
-		\$this->addForeignPrimaryKey('$cup', '$cfc', '".$col->getType()."' , '".$fk->getForeignTableName()."', '".strtoupper($fk->getMappedForeignColumn($col->getName()))."', ".($col->isNotNull() ? 'true' : 'false').", ".$size.", $default);";
+		\$this->addForeignPrimaryKey('$cup', '$cfc', '".$col->getType()."' , '".$fk->getQualfiedForeignTableName()."', '".strtoupper($fk->getMappedForeignColumn($col->getName()))."', ".($col->isNotNull() ? 'true' : 'false').", ".$size.", $default);";
 					}
 				} else {
 					$script .= "
@@ -213,7 +213,7 @@ class ".$this->getClassname()." extends TableMap {
 				if ($col->isForeignKey()) {
 					foreach ($col->getForeignKeys() as $fk) {
 						$script .= "
-		\$this->addForeignKey('$cup', '$cfc', '".$col->getType()."', '".$fk->getForeignTableName()."', '".strtoupper($fk->getMappedForeignColumn($col->getName()))."', ".($col->isNotNull() ? 'true' : 'false').", ".$size.", $default);";
+		\$this->addForeignKey('$cup', '$cfc', '".$col->getType()."', '".$fk->getQualfiedForeignTableName()."', '".strtoupper($fk->getMappedForeignColumn($col->getName()))."', ".($col->isNotNull() ? 'true' : 'false').", ".$size.", $default);";
 					}
 			} else {
 					$script .= "
