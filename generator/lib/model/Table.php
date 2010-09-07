@@ -304,6 +304,19 @@ class Table extends ScopedElement implements IDMethod
 		$this->commonName = $name;
 	}
 
+	private function getUnderscoredName()
+	{
+		$qname = $this->getCommonName();
+		if ($this->getBuildProperty('schemaAutoPrefix')) {
+			if ($this->schema) {
+			$qname = $this->schema.NameGenerator::STD_SEPARATOR_CHAR.$qname;
+			} else if ($this->getDatabase()->getSchema()) {
+				$qname = $this->getDatabase()->getSchema().NameGenerator::STD_SEPARATOR_CHAR.$qname;
+			}
+		}
+		return $qname;
+	}
+
 	/**
 	 * Sets up the Rule object based on the attributes that were passed to loadFromXML().
 	 * @see       parent::loadFromXML()
@@ -316,16 +329,7 @@ class Table extends ScopedElement implements IDMethod
 		// retrieves the method for converting from specified name to a PHP name.
 		$this->phpNamingMethod = $this->getAttribute("phpNamingMethod", $this->getDatabase()->getDefaultPhpNamingMethod());
 
-		$qname = $this->getCommonName();
-		if ($this->getBuildProperty('schemaAutoPrefix')) {
-			if ($this->schema) {
-			$qname = $this->schema.NameGenerator::STD_SEPARATOR_CHAR.$qname;
-			} else if ($this->getDatabase()->getSchema()) {
-				$qname = $this->getDatabase()->getSchema().NameGenerator::STD_SEPARATOR_CHAR.$qname;
-			}
-		}
-
-		$this->phpName = $this->getAttribute("phpName", $this->buildPhpName($qname));
+		$this->phpName = $this->getAttribute("phpName", $this->buildPhpName($this->getUnderscoredName()));
 
 		$this->idMethod = $this->getAttribute("idMethod", $this->getDatabase()->getDefaultIdMethod());
 		$this->allowPkInsert = $this->booleanValue($this->getAttribute("allowPkInsert"));
@@ -430,7 +434,7 @@ class Table extends ScopedElement implements IDMethod
 	private function doHeavyIndexing()
 	{
 		if (self::DEBUG) {
-			print("doHeavyIndex() called on table " . $this->name."\n");
+			print("doHeavyIndex() called on table " . $this->getName()."\n");
 		}
 
 		$pk = $this->getPrimaryKey();
@@ -1061,7 +1065,7 @@ class Table extends ScopedElement implements IDMethod
 	{
 		if ($this->phpName === null) {
 			$inputs = array();
-			$inputs[] = $this->name;
+			$inputs[] = $this->getUnderscoredName();
 			$inputs[] = $this->phpNamingMethod;
 			try {
 				$this->phpName = NameFactory::generateName(NameFactory::PHP_GENERATOR, $inputs);
