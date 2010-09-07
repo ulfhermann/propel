@@ -61,7 +61,8 @@ class ConcreteInheritanceBehavior extends Behavior
 			$table->addColumn($copiedColumn);
 			if ($column->isPrimaryKey() && $this->isCopyData()) {
 				$fk = new ForeignKey();
-				$fk->setForeignTableName($column->getTable()->getName());
+				$fk->setForeignTableCommonName($column->getTable()->getCommonName());
+				$fk->setForeignSchemaName($column->getTable()->getSchema());
 				$fk->setOnDelete('CASCADE');
 				$fk->setOnUpdate(null);
 				$fk->addReference($copiedColumn, $column);

@@ -892,7 +892,7 @@ abstract class ".$this->getClassname()." extends " . $parentClass . "
 		$crossRefTable = $crossFK->getTable();
 		$foreignTable = $crossFK->getForeignTable();
 		$fkPhpName =  $foreignTable->getPhpName();
-		$crossTableName = $crossRefTable->getQualfiedName();
+		$crossTableName = $crossRefTable->getName();
 		$relName = $this->getFKPhpNameAffix($crossFK, $plural = false);
 		$objectName = '$' . $foreignTable->getStudlyPhpName();
 		$relationName = $this->getRefFKPhpNameAffix($refFK, $plural = false);

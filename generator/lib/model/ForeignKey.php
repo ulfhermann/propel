@@ -23,7 +23,7 @@ require_once dirname(__FILE__) . '/XMLElement.php';
 class ForeignKey extends XMLElement
 {
 
-	protected $foreignTableName;
+	protected $foreignTableCommonName;
 	protected $foreignSchemaName;
 	protected $name;
 	protected $phpName;
@@ -61,9 +61,6 @@ class ForeignKey extends XMLElement
 	{
 		$this->foreignTableName = $this->getTable()->getDatabase()->getTablePrefix() . $this->getAttribute("foreignTable");
 		$this->foreignSchemaName = $this->getAttribute("foreignSchema");
-		if ($this->getForeignSchemaName() && $this->getTable()->getDatabase()->getPlatform()->supportsSchemas()) {
-			$this->setForeignTableName($this->getForeignSchemaName().'.'.$this->getForeignTableName());
-		}
 		$this->name = $this->getAttribute("name");
 		$this->phpName = $this->getAttribute("phpName");
 		$this->refPhpName = $this->getAttribute("refPhpName");
@@ -209,27 +206,32 @@ class ForeignKey extends XMLElement
 
 	/**
 	 * Get the foreignTableName of the FK
+	 * @return    string foreign table qualified name
 	 */
 	public function getForeignTableName()
 	{
-		return $this->foreignTableName;
+		if ($this->foreignSchemaName && $this->getTable()->getDatabase()->getPlatform()->supportsSchemas()) {
+			return $this->foreignSchemaName . '.' . $this->foreignTableCommonName;
+		} else {
+			return $this->foreignTableCommonName;
+		}
 	}
 
 	/**
 	 * Get the foreign table name without schema
-	 * @return    foreign table common name
+	 * @return    string foreign table common name
 	 */
 	public function getForeignTableCommonName()
 	{
-		return array_pop(explode($this->foreignTableName, '.'));
+		return $this->foreignTableCommonName;
 	}
 
 	/**
-	 * Set the foreignTableName of the FK
+	 * Set the foreignTableCommonName of the FK
 	 */
-	public function setForeignTableName($tableName)
+	public function setForeignTableCommonName($tableName)
 	{
-		$this->foreignTableName = $tableName;
+		$this->foreignTableCommonName = $tableName;
 	}
 
 	/**
@@ -611,7 +613,7 @@ class ForeignKey extends XMLElement
 
 		$fkNode = $node->appendChild($doc->createElement('foreign-key'));
 
-		$fkNode->setAttribute('foreignTable', $this->getForeignTableName());
+		$fkNode->setAttribute('foreignTable', $this->getForeignTableCommonName());
 		$fkNode->setAttribute('foreignSchema', $this->getForeignSchemaName());
 		$fkNode->setAttribute('name', $this->getName());
 

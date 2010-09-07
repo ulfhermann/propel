@@ -333,7 +333,7 @@ class PropelDataDumpTask extends AbstractPropelDataModelTask
 
 		foreach ($database->getTables() as $tbl) {
 			$this->log("\t+ " . $tbl->getName());
-			$stmt = $this->getTableDataStmt($tbl->getQualfiedName(), $platform);
+			$stmt = $this->getTableDataStmt($tbl->getName(), $platform);
 			while ($row = $stmt->fetch()) {
 				$rowNode = $doc->createElement($tbl->getPhpName());
 				foreach ($tbl->getColumns() as $col) {

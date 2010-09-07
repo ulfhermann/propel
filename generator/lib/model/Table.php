@@ -8,7 +8,7 @@
  * @license    MIT License
  */
 
-require_once dirname(__FILE__) . '/NamedElement.php';
+require_once dirname(__FILE__) . '/ScopedElement.php';
 require_once dirname(__FILE__) . '/../exception/EngineException.php';
 require_once dirname(__FILE__) . '/IDMethod.php';
 require_once dirname(__FILE__) . '/NameFactory.php';
@@ -32,7 +32,7 @@ require_once dirname(__FILE__) . '/Behavior.php';
  * @version    $Revision$
  * @package    propel.generator.model
  */
-class Table extends NamedElement implements IDMethod
+class Table extends ScopedElement implements IDMethod
 {
 
 	/**
@@ -81,6 +81,13 @@ class Table extends NamedElement implements IDMethod
 	 * @var       array
 	 */
 	private $idMethodParameters = array();
+
+	/**
+	 * Table name.
+	 *
+	 * @var       string
+	 */
+	private $commonName;
 
 	/**
 	 * Table description.
@@ -297,21 +304,14 @@ class Table extends NamedElement implements IDMethod
 		$this->name = $name;
 	}
 
-	public function setSchema($v) {
-		parent::setSchema($v);
-		if ($this->getSchema() && $this->getDatabase()->getPlatform()->supportsSchemas()) {
-			$this->setName($this->getSchema().'.'.$this->getCommonName());
-		}
-	}
-
 	/**
 	 * Sets up the Rule object based on the attributes that were passed to loadFromXML().
 	 * @see       parent::loadFromXML()
 	 */
 	public function setupObject()
 	{
-	   parent::setupObject();
-		$this->setName($this->getDatabase()->getTablePrefix() . $this->getCommonName());
+		parent::setupObject();
+		$this->commonName = $this->getDatabase()->getTablePrefix() . $this->getAttribute("name");
 
 		// retrieves the method for converting from specified name to a PHP name.
 		$this->phpNamingMethod = $this->getAttribute("phpNamingMethod", $this->getDatabase()->getDefaultPhpNamingMethod());
@@ -1017,6 +1017,18 @@ class Table extends NamedElement implements IDMethod
 	}
 
 	/**
+	 * Get the name of the Table
+	 */
+	public function getName()
+	{
+		if ($this->schema && $this->getDatabase()->getPlatform()->supportsSchemas()) {
+			return $this->schema . '.' . $this->commonName;
+		} else {
+			return $this->commonName;
+		}
+	}
+
+	/**
 	 * Get the description for the Table
 	 */
 	public function getDescription()
@@ -1098,7 +1110,12 @@ class Table extends NamedElement implements IDMethod
 	 */
 	public function getCommonName()
 	{
-		return array_pop(explode($this->getName(), '.'));
+		return $this->commonName;
+	}
+
+	public function setCommonName($v)
+	{
+		$this->commonName = $v;
 	}
 
 	/**

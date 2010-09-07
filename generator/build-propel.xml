@@ -593,8 +593,7 @@
       outputDirectory="${propel.graph.dir}"
       targetDatabase="${propel.database}"
       sqldbmap="${propel.sql.dir}/sqldb.map"
-      packageObjectModel="${propel.packageObjectModel}"
-      >
+      packageObjectModel="${propel.packageObjectModel}">
       <mapper type="glob" from="${propel.sql.mapper.from}" to="${propel.sql.mapper.to}"/>
       <schemafileset dir="${propel.schema.dir}"
         includes="${propel.schema.sql.includes}"

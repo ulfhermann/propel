@@ -17,15 +17,8 @@ require_once dirname(__FILE__) . '/XMLElement.php';
  * @version    $Revision$
  * @package    propel.generator.model
  */
-abstract class NamedElement extends XMLElement
+abstract class ScopedElement extends XMLElement
 {
-   /**
-	 * Name for this element.
-	 *
-	 * @var       string
-	 */
-	protected $name;
-
    /**
 	 * The package for the generated OM.
 	 *
@@ -58,8 +51,8 @@ abstract class NamedElement extends XMLElement
 	 * Sets up the Rule object based on the attributes that were passed to loadFromXML().
 	 * @see       parent::loadFromXML()
 	 */
-	protected function setupObject() {
-	   $this->name = $this->getAttribute("name");
+	protected function setupObject()
+	{
 		$this->schema = $this->getAttribute("schema");
 
 		$this->namespace = $this->getAttribute("namespace");
@@ -74,22 +67,6 @@ abstract class NamedElement extends XMLElement
 		} else if ($this->schema && !$this->pkg && $this->getBuildProperty('schemaAutoPackage')) {
 		   $this->pkg = $this->schema;
 		}
-	}
-
-	/**
-	 * Get the name of the element
-	 */
-	public function getName()
-	{
-		return $this->name;
-	}
-
-	/**
-	 * Set the name of the element
-	 */
-	public function setName($name)
-	{
-		$this->name = $name;
 	}
 
 	/**

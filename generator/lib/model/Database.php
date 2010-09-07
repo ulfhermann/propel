@@ -8,7 +8,7 @@
  * @license    MIT License
  */
 
-require_once dirname(__FILE__) . '/NamedElement.php';
+require_once dirname(__FILE__) . '/ScopedElement.php';
 require_once dirname(__FILE__) . '/IDMethod.php';
 require_once dirname(__FILE__) . '/NameGenerator.php';
 require_once dirname(__FILE__) . '/Table.php';
@@ -26,12 +26,13 @@ require_once dirname(__FILE__) . '/Behavior.php';
  * @version    $Revision$
  * @package    propel.generator.model
  */
-class Database extends NamedElement
+class Database extends ScopedElement
 {
 
 	private $platform;
 	private $tableList = array();
 	private $curColumn;
+	private $name;
 
 	private $baseClass;
 	private $basePeer;
@@ -79,6 +80,7 @@ class Database extends NamedElement
 	protected function setupObject()
 	{
 		parent::setupObject();
+		$this->name = $this->getAttribute("name");
 		$this->baseClass = $this->getAttribute("baseClass");
 		$this->basePeer = $this->getAttribute("basePeer");
 		$this->defaultIdMethod = $this->getAttribute("defaultIdMethod", IDMethod::NATIVE);
@@ -107,6 +109,22 @@ class Database extends NamedElement
 	public function setPlatform($platform)
 	{
 		$this->platform = $platform;
+	}
+
+	/**
+	 * Get the name of the Database
+	 */
+	public function getName()
+	{
+		return $this->name;
+	}
+
+	/**
+	 * Set the name of the Database
+	 */
+	public function setName($name)
+	{
+		$this->name = $name;
 	}
 
 	/**
@@ -365,9 +383,6 @@ class Database extends NamedElement
 			if ($tbl->getPackage() === null) {
 				$tbl->setPackage($this->getPackage());
 			}
-			$this->tableList[] = $tbl;
-			$this->tablesByName[ $qname ] = $tbl;
-			$this->tablesByPhpName[ $tbl->getPhpName() ] = $tbl;
 			return $tbl;
 		} else {
 			$tbl = new Table();
