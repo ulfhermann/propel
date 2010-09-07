@@ -27,10 +27,10 @@ class ConstraintNameGenerator implements NameGenerator
 
 	/**
 	 * First element of <code>inputs</code> should be of type {@link Database}, second
-	 * should be a package (schema) name or null, third should be a table name, fourth
-	 * is the type identifier (spared if trimming is necessary due to database type
-	 * length constraints), and the fifth is a <code>Integer</code> indicating the
-	 * number of this contraint.
+	 * should be a table name, third is the type identifier (spared if
+	 * trimming is necessary due to database type length constraints),
+	 * and the fourth is a <code>Integer</code> indicating the number
+	 * of this contraint.
 	 *
 	 * @see        NameGenerator
 	 * @throws     EngineException
@@ -39,10 +39,9 @@ class ConstraintNameGenerator implements NameGenerator
 	{
 
 		$db = $inputs[0];
-		$schema = $inputs[1];
-		$name = $inputs[2];
-		$namePostfix = $inputs[3];
-		$constraintNbr = (string) $inputs[4];
+		$name = $inputs[1];
+		$namePostfix = $inputs[2];
+		$constraintNbr = (string) $inputs[3];
 
 		// Calculate maximum RDBMS-specific column character limit.
 		$maxBodyLength = -1;
@@ -58,10 +57,6 @@ class ConstraintNameGenerator implements NameGenerator
 		} catch (EngineException $e) {
 			echo $e;
 			throw $e;
-		}
-
-		if ($schema && $db->getPlatform()->supportsSchemas()) {
-			$name = $schema . self::STD_SEPARATOR_CHAR . $name;
 		}
 
 		// Do any necessary trimming.

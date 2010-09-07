@@ -59,7 +59,7 @@ class ForeignKey extends XMLElement
 	 */
 	protected function setupObject()
 	{
-		$this->foreignTableName = $this->getTable()->getDatabase()->getTablePrefix() . $this->getAttribute("foreignTable");
+		$this->foreignTableCommonName = $this->getTable()->getDatabase()->getTablePrefix() . $this->getAttribute("foreignTable");
 		$this->foreignSchemaName = $this->getAttribute("foreignSchema");
 		$this->name = $this->getAttribute("name");
 		$this->phpName = $this->getAttribute("phpName");

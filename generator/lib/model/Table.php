@@ -301,7 +301,7 @@ class Table extends ScopedElement implements IDMethod
 	 */
 	public function __construct($name = null)
 	{
-		$this->name = $name;
+		$this->commonName = $name;
 	}
 
 	/**
@@ -608,7 +608,6 @@ class Table extends ScopedElement implements IDMethod
 	{
 		$inputs = array();
 		$inputs[] = $this->getDatabase();
-		$inputs[] = $this->getSchema();
 		$inputs[] = $this->getCommonName();
 		$inputs[] = $nameType;
 		$inputs[] = $nbr;
