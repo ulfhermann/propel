@@ -1020,15 +1020,14 @@ ALTER TABLE %s ADD
 	/**
 	 * Quotes identifiers used in database SQL.
 	 * @param      string $text
-	 * @param      bool   $quoteDots if dots should be quoted separately
 	 * @return     string Quoted identifier.
 	 */
-	public function quoteIdentifier($text, $quoteDots = true)
+	public function quoteIdentifier($text)
 	{
 		if (!$this->isIdentifierQuotingEnabled) return $text;
-		return '"' . ($quoteDots ? strtr($text, array('.' => '"."')) : $text) . '"';
+		return '"' . strtr($text, array('.' => '"."')) . '"';
 	}
-	
+
 	public function setIdentifierQuoting($enabled = true)
 	{
 		$this->isIdentifierQuotingEnabled = $enabled;

@@ -157,11 +157,10 @@ interface PropelPlatformInterface
 
 	/**
 	 * Quotes identifiers used in database SQL.
-	 * @param      string  $text
-	 * @param      boolean $quoteDots if dots should be quoted separately
+	 * @param      string $text
 	 * @return     string Quoted identifier.
 	 */
-	public function quoteIdentifier($text, $uoteDots = true);
+	public function quoteIdentifier($text);
 
 	/**
 	 * Whether RDBMS supports native ON DELETE triggers (e.g. ON DELETE CASCADE).

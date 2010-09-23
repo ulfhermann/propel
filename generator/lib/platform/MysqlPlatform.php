@@ -367,7 +367,7 @@ DROP INDEX %s ON %s;
 	{
 		return sprintf('%sINDEX %s (%s)',
 			$this->getIndexType($index),
-			$this->quoteIdentifier($index->getName(), false),
+			$this->quoteIdentifier($index->getName()),
 			$this->getIndexColumnListDDL($index)
 		);
 	}
@@ -387,7 +387,7 @@ DROP INDEX %s ON %s;
 	public function getUniqueDDL(Unique $unique)
 	{
 		return sprintf('UNIQUE INDEX %s (%s)',
-			$this->quoteIdentifier($unique->getName(), false),
+			$this->quoteIdentifier($unique->getName()),
 			$this->getIndexColumnListDDL($unique)
 		);
 	}
@@ -550,17 +550,12 @@ ALTER TABLE %s CHANGE %s %s;
 	 * to allow for a <schema>.<table> or <table>.<column> syntax.
 	 *
 	 * @param       string $text the identifier
-	 * @param       bool   $quoteDots if dots should be quoted separately
 	 * @return      string the quoted identifier
 	 */
-	public function quoteIdentifier($text, $quoteDots = true)
+	public function quoteIdentifier($text)
 	{
-		// table name and field names should be quoted specifically
-		// (e.g. database.table should be quoted as `database`.`table`)
-		// but index and constraint identifiers should be quoted as `table.index` instead of `table`.`index`
-		// (call quoteIdentifier() with $quoteDots set to false)
 		if (!$this->isIdentifierQuotingEnabled) return $text;
-		return '`' . ($quoteDots ? strtr($text, array('.' => '`.`')) : $text) . '`';
+		return '`' . strtr($text, array('.' => '`.`')) . '`';
 	}
 
 	public function getTimestampFormatter()
