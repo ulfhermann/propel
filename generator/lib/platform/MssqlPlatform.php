@@ -165,8 +165,7 @@ END
 
 	public function quoteIdentifier($text)
 	{
-		if (!$this->isIdentifierQuotingEnabled) return $text;
-		return '[' . strtr($text, array('.' => '].[')) . ']';
+		return $this->isIdentifierQuotingEnabled ? '[' . strtr($text, array('.' => '].[')) . ']' : $text;
 	}
 
 	public function getTimestampFormatter()

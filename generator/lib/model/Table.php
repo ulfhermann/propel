@@ -309,7 +309,7 @@ class Table extends ScopedElement implements IDMethod
 		$qname = $this->getCommonName();
 		if ($this->getBuildProperty('schemaAutoPrefix')) {
 			if ($this->schema) {
-			$qname = $this->schema.NameGenerator::STD_SEPARATOR_CHAR.$qname;
+				$qname = $this->schema.NameGenerator::STD_SEPARATOR_CHAR.$qname;
 			} else if ($this->getDatabase()->getSchema()) {
 				$qname = $this->getDatabase()->getSchema().NameGenerator::STD_SEPARATOR_CHAR.$qname;
 			}
@@ -1116,6 +1116,9 @@ class Table extends ScopedElement implements IDMethod
 		return $this->commonName;
 	}
 
+	/**
+	 * Set the common name of the table (without schema)
+	 */
 	public function setCommonName($v)
 	{
 		$this->commonName = $v;

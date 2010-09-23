@@ -19,21 +19,21 @@ require_once dirname(__FILE__) . '/XMLElement.php';
  */
 abstract class ScopedElement extends XMLElement
 {
-   /**
+	/**
 	 * The package for the generated OM.
 	 *
 	 * @var       string
 	 */
 	protected $pkg;
 
-   /**
+	/**
 	 * Namespace for the generated OM.
 	 *
 	 * @var       string
 	 */
 	protected $namespace;
 
-   /**
+	/**
 	 * Schema this element belongs to.
 	 *
 	 * @var       string
@@ -59,13 +59,13 @@ abstract class ScopedElement extends XMLElement
 		$this->pkg = $this->getAttribute("package");
 
 		if ($this->schema && !$this->namespace && $this->getBuildProperty('schemaAutoNamespace')) {
-		   $this->namespace = $this->schema;
+			$this->namespace = $this->schema;
 		}
 		/* namespace.autoPackage overrides schema.autoPackage */
 		if ($this->namespace && !$this->pkg && $this->getBuildProperty('namespaceAutoPackage')) {
 			$this->pkg = str_replace('\\', '.', $this->namespace);
 		} else if ($this->schema && !$this->pkg && $this->getBuildProperty('schemaAutoPackage')) {
-		   $this->pkg = $this->schema;
+			$this->pkg = $this->schema;
 		}
 	}
 
