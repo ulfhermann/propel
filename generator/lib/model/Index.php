@@ -49,14 +49,16 @@ class Index extends XMLElement
 		$table = $this->getTable();
 		$inputs = array();
 		$inputs[] = $table->getDatabase();
-		$inputs[] = $table->getSchema();
 		$inputs[] = $table->getCommonName();
-		// ASSUMPTION: This Index not yet added to the list.
 		if ($this->isUnique()) {
 			$inputs[] = "U";
-			$inputs[] = count($table->getUnices()) + 1;
 		} else {
 			$inputs[] = "I";
+		}
+		// ASSUMPTION: This Index not yet added to the list.
+		if ($this->isUnique()) {
+			$inputs[] = count($table->getUnices()) + 1;
+		} else {
 			$inputs[] = count($table->getIndices()) + 1;
 		}
 
