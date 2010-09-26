@@ -1806,7 +1806,7 @@ EOT;
 	public function getAliasedColName($colName)
 	{
 		if ($this->useAliasInSQL) {
-			return $this->modelAlias . substr($colName, strpos($colName, '.'));
+			return $this->modelAlias . substr($colName, strrpos($colName, '.'));
 		} else {
 			return $colName;
 		}

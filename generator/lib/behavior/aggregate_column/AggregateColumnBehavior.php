@@ -79,9 +79,13 @@ class AggregateColumnBehavior extends Behavior
 			$conditions[] = $columnReference['local']->getFullyQualifiedName() . ' = :p' . ($index + 1);
 			$bindings[$index + 1]   = $columnReference['foreign']->getPhpName();
 		}
+		$tableName = $database->getTablePrefix() . $this->getParameter('foreign_table');
+		if ($database->getPlatform()->supportsSchemas() && $this->getParameter('foreign_schema')) {
+			$tableName = $this->getParameter('foreign_schema').'.'.$tableName;
+		}
 		$sql = sprintf('SELECT %s FROM %s WHERE %s',
 			$this->getParameter('expression'),
-			$database->getPlatform()->quoteIdentifier($database->getTablePrefix() . $this->getParameter('foreign_table')),
+			$database->getPlatform()->quoteIdentifier($tableName),
 			implode(' AND ', $conditions)
 		);
 		
