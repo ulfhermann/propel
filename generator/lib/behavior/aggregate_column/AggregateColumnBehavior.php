@@ -25,6 +25,7 @@ class AggregateColumnBehavior extends Behavior
 		'name'           => null,
 		'expression'     => null,
 		'foreign_table'  => null,
+		'foreign_schema' => null,
 	);
 	
 	/**
@@ -101,7 +102,11 @@ class AggregateColumnBehavior extends Behavior
 	protected function getForeignTable()
 	{
 		$database = $this->getTable()->getDatabase();
-		return $database->getTable($database->getTablePrefix() . $this->getParameter('foreign_table'));
+		$tableName = $database->getTablePrefix() . $this->getParameter('foreign_table');
+		if ($database->getPlatform()->supportsSchemas() && $this->getParameter('foreign_schema')) {
+			$tableName = $this->getParameter('foreign_schema'). '.' . $tableName;
+		}
+		return $database->getTable($tableName);
 	}
 
 	protected function getForeignKey()

@@ -25,7 +25,8 @@ class ConcreteInheritanceBehavior extends Behavior
 	protected $parameters = array(
 		'extends'             => '',
 		'descendant_column'   => 'descendant_class',
-		'copy_data_to_parent' => 'true'
+		'copy_data_to_parent' => 'true',
+		'schema'              => ''
 	);
 	
 	public function modifyTable()
@@ -117,7 +118,11 @@ class ConcreteInheritanceBehavior extends Behavior
 	protected function getParentTable()
 	{
 		$database = $this->getTable()->getDatabase();
-		return $database->getTable($database->getTablePrefix() . $this->getParameter('extends'));
+		$tableName = $database->getTablePrefix() . $this->getParameter('extends');
+		if ($database->getPlatform()->supportsSchemas() && $this->getParameter('schema')) {
+			$tableName = $this->getParameter('schema').'.'.$tableName;
+		}
+		return $database->getTable($tableName);
 	}
 	
 	protected function isCopyData()

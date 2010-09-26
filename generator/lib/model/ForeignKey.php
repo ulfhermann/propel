@@ -61,6 +61,11 @@ class ForeignKey extends XMLElement
 	{
 		$this->foreignTableCommonName = $this->getTable()->getDatabase()->getTablePrefix() . $this->getAttribute("foreignTable");
 		$this->foreignSchemaName = $this->getAttribute("foreignSchema");
+		if (!$this->foreignSchemaName) {
+			if ($this->getTable()->getSchema()) {
+				$this->foreignSchemaName = $this->getTable()->getSchema();
+			}
+		}
 		$this->name = $this->getAttribute("name");
 		$this->phpName = $this->getAttribute("phpName");
 		$this->refPhpName = $this->getAttribute("refPhpName");

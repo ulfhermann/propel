@@ -73,7 +73,7 @@ abstract class SchemaDDLBuilder extends DDLBuilder {
 
 			if (!in_array($schemaName, self::$addedSchemas)) {
 				self::$addedSchemas[] = $schemaName;
-				$script .= "\nCREATE SCHEMA " . $this->quoteIdentifier($schemaName) . ";\n";
+				$script .= "\nCREATE SCHEMA IF NOT EXISTS " . $this->quoteIdentifier($schemaName) . ";\n";
 			}
 
 		}
