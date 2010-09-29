@@ -193,7 +193,7 @@ EOF;
 		$column2->getDomain()->copy(new Domain('BARTYPE'));
 		$table2->addColumn($column2);
 		$fk = new ForeignKey('foo_bar_FK');
-		$fk->setForeignTableName('bar');
+		$fk->setForeignTableCommonName('bar');
 		$fk->addReference($column1, $column2);
 		$fk->setOnDelete('CASCADE');
 		$table1->addForeignKey($fk);
@@ -215,7 +215,7 @@ EOF;
 		$table2->addColumn($column2);
 		
 		$fk = new ForeignKey('foo_bar_FK');
-		$fk->setForeignTableName('bar');
+		$fk->setForeignTableCommonName('bar');
 		$fk->addReference($column1, $column2);
 		$fk->setOnDelete('CASCADE');
 		$table1->addForeignKey($fk);
@@ -229,7 +229,7 @@ EOF;
 		$table3->addColumn($column4);
 
 		$fk = new ForeignKey('foo_baz_FK');
-		$fk->setForeignTableName('baz');
+		$fk->setForeignTableCommonName('baz');
 		$fk->addReference($column3, $column4);
 		$fk->setOnDelete('SETNULL');
 		$table1->addForeignKey($fk);
