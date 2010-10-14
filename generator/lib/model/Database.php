@@ -370,9 +370,7 @@ class Database extends ScopedElement
 		if ($data instanceof Table) {
 			$tbl = $data; // alias
 			$tbl->setDatabase($this);
-			if ($tbl->getSchema() === null) {
-				$tbl->setSchema($this->getSchema());
-			}
+			if ($tbl->getSchema() === null) $tbl->setSchema($this->getSchema());
 			if (isset($this->tablesByName[$tbl->getName()])) {
 				throw new EngineException("Duplicate table declared: " . $tbl->getName());
 			}
@@ -387,6 +385,7 @@ class Database extends ScopedElement
 		} else {
 			$tbl = new Table();
 			$tbl->setDatabase($this);
+			$tbl->setSchema($this->getSchema());
 			$tbl->loadFromXML($data);
 			return $this->addTable($tbl); // call self w/ different param
 		}
