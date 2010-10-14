@@ -1022,7 +1022,8 @@ class Table extends ScopedElement implements IDMethod
 	 */
 	public function getName()
 	{
-		if ($this->schema && $this->getDatabase()->getPlatform()->supportsSchemas()) {
+		if ($this->schema && $this->getDatabase() && $this->getDatabase()->getPlatform() &&
+				$this->getDatabase()->getPlatform()->supportsSchemas()) {
 			return $this->schema . '.' . $this->commonName;
 		} else {
 			return $this->commonName;
@@ -1131,10 +1132,12 @@ class Table extends ScopedElement implements IDMethod
 		if ($this->namespace && strpos($this->namespace, '\\') === 0) {
 			// absolute table namespace
 			return substr($this->namespace, 1);
-		} elseif ($this->namespace && $this->getDatabase() && $this->getDatabase()->getNamespace()) {
-			return $this->getDatabase()->getNamespace() . '\\' . $this->namespace;
 		} elseif ($this->getDatabase() && $this->getDatabase()->getNamespace()) {
-			return $this->getDatabase()->getNamespace();
+			if ($this->namespace) {
+				return $this->getDatabase()->getNamespace() . '\\' . $this->namespace;
+			} else {
+				return $this->getDatabase()->getNamespace();
+			}
 		} else {
 			return $this->namespace;
 		}
