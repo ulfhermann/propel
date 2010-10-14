@@ -75,7 +75,7 @@ class AggregateColumnBehaviorTest extends BookstoreTestBase
 		$entry1->setBookstoreSchemasBookstore($store);
 		$entry1->setContestBookstoreContest($contest);
 		$entry1->setBookstoreSchemasCustomer($customer1);
-		$entry1->save($this->con);
+		$entry1->save($this->con, true); // skip reload to avoid #1151 for now
 
 		$this->assertEquals(1, $store->computeTotalContestEntries($this->con), 'The compute method computes the aggregate function on related objects');
 
@@ -86,7 +86,7 @@ class AggregateColumnBehaviorTest extends BookstoreTestBase
 		$entry2->setBookstoreSchemasBookstore($store);
 		$entry2->setContestBookstoreContest($contest);
 		$entry2->setBookstoreSchemasCustomer($customer2);
-		$entry2->save($this->con);
+		$entry2->save($this->con, true); // skip reload to avoid #1151 for now
 
 		$this->assertEquals(2, $store->computeTotalContestEntries($this->con), 'The compute method computes the aggregate function on related objects');
 		$entry1->delete($this->con);
