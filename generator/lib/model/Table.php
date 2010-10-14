@@ -304,15 +304,18 @@ class Table extends ScopedElement implements IDMethod
 		$this->commonName = $name;
 	}
 
-	private function getUnderscoredName()
+	/**
+	 * get a qualified name of this table with scheme and common name separated by '_'
+	 * if schemaAutoPrefix is set. Otherwise get the common name.
+	 * @return string
+	 */
+	private function getStdSeparatedName()
 	{
-		$qname = $this->getCommonName();
-		if ($this->getBuildProperty('schemaAutoPrefix')) {
-			if ($this->schema) {
-				$qname = $this->schema.NameGenerator::STD_SEPARATOR_CHAR.$qname;
-			}
+		if ($this->schema && $this->getBuildProperty('schemaAutoPrefix')) {
+			return $this->schema . NameGenerator::STD_SEPARATOR_CHAR . $this->getCommonName();
+		} else {
+			return $this->getCommonName();
 		}
-		return $qname;
 	}
 
 	/**
@@ -327,7 +330,7 @@ class Table extends ScopedElement implements IDMethod
 		// retrieves the method for converting from specified name to a PHP name.
 		$this->phpNamingMethod = $this->getAttribute("phpNamingMethod", $this->getDatabase()->getDefaultPhpNamingMethod());
 
-		$this->phpName = $this->getAttribute("phpName", $this->buildPhpName($this->getUnderscoredName()));
+		$this->phpName = $this->getAttribute("phpName", $this->buildPhpName($this->getStdSeparatedName()));
 
 		$this->idMethod = $this->getAttribute("idMethod", $this->getDatabase()->getDefaultIdMethod());
 		$this->allowPkInsert = $this->booleanValue($this->getAttribute("allowPkInsert"));
@@ -1064,7 +1067,7 @@ class Table extends ScopedElement implements IDMethod
 	{
 		if ($this->phpName === null) {
 			$inputs = array();
-			$inputs[] = $this->getUnderscoredName();
+			$inputs[] = $this->getStdSeparatedName();
 			$inputs[] = $this->phpNamingMethod;
 			try {
 				$this->phpName = NameFactory::generateName(NameFactory::PHP_GENERATOR, $inputs);
