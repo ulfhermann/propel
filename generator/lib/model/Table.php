@@ -310,8 +310,6 @@ class Table extends ScopedElement implements IDMethod
 		if ($this->getBuildProperty('schemaAutoPrefix')) {
 			if ($this->schema) {
 				$qname = $this->schema.NameGenerator::STD_SEPARATOR_CHAR.$qname;
-			} else if ($this->getDatabase()->getSchema()) {
-				$qname = $this->getDatabase()->getSchema().NameGenerator::STD_SEPARATOR_CHAR.$qname;
 			}
 		}
 		return $qname;
