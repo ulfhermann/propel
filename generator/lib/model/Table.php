@@ -362,7 +362,7 @@ class Table extends ScopedElement implements IDMethod
 	 */
 	public function getBuildProperty($key)
 	{
-		return $this->getDatabase()->getBuildProperty($key);
+		return $this->getDatabase() ? $this->getDatabase()->getBuildProperty($key) : '';
 	}
 
 	/**
