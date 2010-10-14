@@ -30,6 +30,23 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
 		);
 	}
 	
+	public function testTableInheritsSchema()
+	{
+		$database = new Database();
+		$database->setPlatform(new SchemaPlatform());
+		$database->setSchema("Foo");
+		$table = new Table("Bar");
+		$database->addTable($table);
+		$this->assertTrue($database->hasTable("Foo.Bar"));
+		$this->assertFalse($database->hasTable("Bar"));
+
+		$database = new Database();
+		$database->setPlatform(new NoSchemaPlatform());
+		$database->addTable($table);
+		$this->assertFalse($database->hasTable("Foo.Bar"));
+		$this->assertTrue($database->hasTable("Bar"));
+	}
+
 	/**
 	 * @dataProvider providerForTestHasTable
 	 */
@@ -69,4 +86,12 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($table, $database->getTable('foo', true));
 		$this->assertEquals($table, $database->getTable('FOO', true));
 	}
+}
+
+class SchemaPlatform {
+	public function supportsSchemas() {return true;}
+}
+
+class NoSchemaPlatform {
+	public function supportsSchemas() {return false;}
 }
