@@ -11,6 +11,7 @@
 
 require_once 'PHPUnit/Framework.php';
 require_once dirname(__FILE__) . '/../../../../generator/lib/model/Database.php';
+require_once dirname(__FILE__) . '/../../../tools/helpers/DummyPlatforms.php';
 
 /**
  * Tests for Database model class.
@@ -86,12 +87,4 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($table, $database->getTable('foo', true));
 		$this->assertEquals($table, $database->getTable('FOO', true));
 	}
-}
-
-class SchemaPlatform {
-	public function supportsSchemas() {return true;}
-}
-
-class NoSchemaPlatform {
-	public function supportsSchemas() {return false;}
 }
