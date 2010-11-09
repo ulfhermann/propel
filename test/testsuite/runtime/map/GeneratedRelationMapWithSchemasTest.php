@@ -11,9 +11,9 @@
 require_once dirname(__FILE__) . '/../../../tools/helpers/bookstore/BookstoreTestBase.php';
 
 /**
- * Test class for PHP5TableMapBuilder.
+ * Test class for PHP5TableMapBuilder with schemas.
  *
- * @author     François Zaninotto
+ * @author     Ulf Hermann
  * @version    $Id$
  * @package    runtime.map
  */
