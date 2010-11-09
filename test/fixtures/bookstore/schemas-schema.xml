@@ -41,8 +41,16 @@
 
 	<table name="customer" allowPkInsert="true">
 		<column name="id" type="INTEGER" primaryKey="true" autoIncrement="true" />
+		<column name="first_contest" type="INTEGER"/>
+		<column name="second_contest" type="INTEGER"/>
 		<column name="name" type="VARCHAR" size="255" />
 		<column name="join_date" type="DATE" />
+		<foreign-key foreignTable="bookstore_contest" foreignSchema="contest">
+			<reference local="first_contest" foreign="id"/>
+		</foreign-key>
+		<foreign-key foreignTable="bookstore_contest" foreignSchema="contest">
+			<reference local="second_contest" foreign="id"/>
+		</foreign-key>
 	</table>
 	
 	<!-- Test one-to-one (1:1) relationship -->
