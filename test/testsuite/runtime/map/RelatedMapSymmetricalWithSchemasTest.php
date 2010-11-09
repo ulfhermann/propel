@@ -11,10 +11,10 @@
 require_once dirname(__FILE__) . '/../../../tools/helpers/bookstore/BookstoreTestBase.php';
 
 /**
- * Test class for RelatedMap::getSymmetricalRelation.
+ * Test class for RelatedMap::getSymmetricalRelation with schemas.
  *
- * @author     François Zaninotto
- * @version    $Id: GeneratedRelationMapTest.php 1347 2009-12-03 21:06:36Z francois $
+ * @author     Ulf Hermann
+ * @version    $Id$
  * @package    runtime.map
  */
 class RelatedMapSymmetricalTest extends BookstoreTestBase 
