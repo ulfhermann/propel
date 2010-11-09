@@ -42,6 +42,39 @@ EOF;
 		return array(array($schema));
 	}
 
+	public function providerForTestGetAddTablesWithSchemaDDL()
+	{
+		$schema = <<<EOF
+<database name="test" schema="x">
+	<table name="book">
+		<column name="id" primaryKey="true" type="INTEGER" autoIncrement="true" />
+		<column name="title" type="VARCHAR" size="255" required="true" />
+		<index>
+			<index-column name="title" />
+		</index>
+		<column name="author_id" type="INTEGER"/>
+		<foreign-key foreignTable="author" foreignSchema="y">
+			<reference local="author_id" foreign="id" />
+		</foreign-key>
+	</table>
+	<table name="author" schema="y">
+		<column name="id" primaryKey="true" type="INTEGER" autoIncrement="true" />
+		<column name="first_name" type="VARCHAR" size="100" />
+		<column name="last_name" type="VARCHAR" size="100" />
+	</table>
+	<table name="book_summary">
+		<column name="id" required="true" primaryKey="true" autoIncrement="true" type="INTEGER" />
+		<column name="book_id" required="true" type="INTEGER" />
+		<column name="summary" required="true" type="LONGVARCHAR" />
+		<foreign-key foreignTable="book" onDelete="cascade">
+			<reference local="book_id" foreign="id" />
+		</foreign-key>
+	</table>
+</database>
+EOF;
+		return array(array($schema));
+	}
+
 	public function providerForTestGetAddTablesSkipSQLDDL()
 	{
 		$schema = <<<EOF
