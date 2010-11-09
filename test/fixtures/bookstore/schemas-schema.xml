@@ -44,6 +44,17 @@
 		<column name="name" type="VARCHAR" size="255" />
 		<column name="join_date" type="DATE" />
 	</table>
+	
+	<!-- Test one-to-one (1:1) relationship -->
+	<table name="customer_account" reloadOnInsert="true" reloadOnUpdate="true" description="A table that represents a bookstore customer's account.">
+		<column name="customer_id" type="INTEGER" primaryKey="true" description="Primary key for the account ..." />
+		<column name="enabled" type="BOOLEAN" default="true" />
+		<column name="not_enabled" type="BOOLEAN" default="false" />
+		<column name="created" type="TIMESTAMP" defaultExpr="CURRENT_TIMESTAMP" />
+		<foreign-key foreignTable="customer" onDelete="cascade">
+			<reference local="customer_id" foreign="id" />
+		</foreign-key>
+	</table>
 
 	<!-- Test Views (read-only tables) -->
 	<table name="contest_view" readOnly="true" schema="contest">
