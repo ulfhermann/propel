@@ -1026,7 +1026,7 @@ ALTER TABLE %s ADD
 	{
 		return $this->isIdentifierQuotingEnabled ? '"' . strtr($text, array('.' => '"."')) . '"' : $text;
 	}
-
+	
 	public function setIdentifierQuoting($enabled = true)
 	{
 		$this->isIdentifierQuotingEnabled = $enabled;

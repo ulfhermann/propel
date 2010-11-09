@@ -2589,10 +2589,10 @@ abstract class ".$this->getClassname(). $extendingPeerClass . " {
 		  // want to cover this case, but the code is not there yet.
 		  if ( $subfk->getForeignTableName() != $table->getName() ) {
 
-			$joinTable = $table->getDatabase()->getTable($subfk->getForeignTableName());
+		  	$joinTable = $table->getDatabase()->getTable($subfk->getForeignTableName());
 
-			$joinedTableObjectBuilder = $this->getNewObjectBuilder($joinTable);
-			$joinedTablePeerBuilder = $this->getNewPeerBuilder($joinTable);
+		  	$joinedTableObjectBuilder = $this->getNewObjectBuilder($joinTable);
+		  	$joinedTablePeerBuilder = $this->getNewPeerBuilder($joinTable);
 
 		  	$joinClassName = $joinedTableObjectBuilder->getObjectClassname();
 

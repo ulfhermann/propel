@@ -172,7 +172,7 @@
 			</then>
 		</if>
 	  </target>
-
+	
   <target
     name="sql"
     depends="sql-check,pgsql-quoting-check,mysqli-check"
